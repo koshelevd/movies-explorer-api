@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 const {
   DB_HOST = 'localhost',
@@ -10,6 +11,8 @@ const {
 } = process.env;
 
 const app = express();
+
+app.use(bodyParser.json());
 
 mongoose.connect(`mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
   useNewUrlParser: true,
