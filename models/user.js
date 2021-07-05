@@ -1,6 +1,21 @@
 const mongoose = require('mongoose');
+const { isEmail } = require('validator');
 
-const validateEmail = [];
+const validateEmail = [
+  {
+    validator: value => isEmail(value),
+    message: 'You should specify valid user email!',
+  },
+  {
+    async validator(value) {
+      const emailCount = await this.constructor.countDocuments({
+        email: value,
+      });
+      return !emailCount;
+    },
+    message: 'User exists!',
+  },
+];
 
 const userSchema = new mongoose.Schema({
   name: {
