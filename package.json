@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/koshelevd/movies-explorer-api#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.13.2"
   },
   "devDependencies": {
     "eslint": "^7.30.0",
