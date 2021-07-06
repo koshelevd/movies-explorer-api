@@ -3,11 +3,13 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const auth = require('./middlewares/auth');
+const NotFoundError = require('./errors/NotFoundError');
 
 const {
   DB_HOST = 'localhost',
   DB_PORT = '27017',
   DB_NAME = 'bitfilmsdb',
+  NODE_ENV,
   PORT = 3000,
   API_PATH = '',
 } = process.env;
@@ -23,9 +25,22 @@ mongoose.connect(`mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
   useUnifiedTopology: true,
 });
 
+app.use(`${API_PATH}/`, require('./routes/auth'));
 app.use(`${API_PATH}/users`, auth, require('./routes/users'));
 app.use(`${API_PATH}/movies`, auth, require('./routes/movies'));
 
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
+app.use((req, res, next) => {
+  next(new NotFoundError('Endpoint or method not found'));
 });
+
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  // console.log(err);
+  const { statusCode = 500, message } = err;
+  res.status(statusCode).send({
+    message: statusCode === 500 ? 'Internal server error' : message,
+  });
+  next();
+});
+
+app.listen(NODE_ENV === 'production' ? PORT : 3000);
