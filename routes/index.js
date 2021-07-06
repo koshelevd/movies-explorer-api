@@ -15,3 +15,5 @@ router.use(`${API_PATH}/movies`, auth, moviesRoutes);
 router.use((req, res, next) => {
   next(new NotFoundError('Endpoint or method not found'));
 });
+
+module.exports = router;
