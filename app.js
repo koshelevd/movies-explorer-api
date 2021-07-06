@@ -6,6 +6,7 @@ const { errors } = require('celebrate');
 
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/NotFoundError');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 require('dotenv').config();
 
@@ -30,6 +31,8 @@ mongoose.connect(`mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
   useUnifiedTopology: true,
 });
 
+app.use(requestLogger);
+
 app.use(`${API_PATH}/`, require('./routes/auth'));
 app.use(`${API_PATH}/users`, auth, require('./routes/users'));
 app.use(`${API_PATH}/movies`, auth, require('./routes/movies'));
@@ -37,6 +40,8 @@ app.use(`${API_PATH}/movies`, auth, require('./routes/movies'));
 app.use((req, res, next) => {
   next(new NotFoundError('Endpoint or method not found'));
 });
+
+app.use(errorLogger);
 
 app.use(errors());
 
