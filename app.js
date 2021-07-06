@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
+const auth = require('./middlewares/auth');
+
 const {
   DB_HOST = 'localhost',
   DB_PORT = '27017',
@@ -20,6 +22,9 @@ mongoose.connect(`mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
+
+app.use(`${API_PATH}/users`, auth, require('./routes/users'));
+app.use(`${API_PATH}/movies`, auth, require('./routes/movies'));
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
