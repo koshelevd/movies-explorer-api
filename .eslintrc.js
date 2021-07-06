@@ -9,7 +9,7 @@ module.exports = {
     ecmaVersion: 12,
   },
   rules: {
-    'no-underscore-dangle': ['off'],
+    'no-underscore-dangle': ['error', { allow: ['_id'] }],
     'arrow-parens': ['error', 'as-needed'],
   },
 };
