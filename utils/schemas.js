@@ -9,7 +9,7 @@ const validateURL = (value, helpers) => {
       require_protocol: true,
     })
   ) {
-    return helpers.message("URL you've provided isn't valid!");
+    return helpers.message("URL you've provided is not valid!");
   }
 
   return value;
@@ -55,7 +55,7 @@ const signUpSchema = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required(),
-    name: Joi.string().min(2).max(30).required(),
+    name: Joi.string().min(2).max(30),
   }),
 });
 
