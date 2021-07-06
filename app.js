@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const { errors } = require('celebrate');
 
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/NotFoundError');
@@ -37,9 +38,12 @@ app.use((req, res, next) => {
   next(new NotFoundError('Endpoint or method not found'));
 });
 
+app.use(errors());
+
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
+  console.log(err);
   res.status(statusCode).send({
     message: statusCode === 500 ? 'Internal server error' : message,
   });
