@@ -1,9 +1,12 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/NotFoundError');
+
+require('dotenv').config();
 
 const {
   DB_HOST = 'localhost',
@@ -16,6 +19,7 @@ const {
 
 const app = express();
 
+app.use(cookieParser());
 app.use(bodyParser.json());
 
 mongoose.connect(`mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
