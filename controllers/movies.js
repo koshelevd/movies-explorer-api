@@ -1,4 +1,4 @@
-const Movie = require('../models/user');
+const Movie = require('../models/movie');
 
 const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
@@ -23,6 +23,7 @@ module.exports.createMovie = (req, res, next) => {
     nameRU,
     nameEN,
   } = req.body;
+
   Movie.create({
     country,
     director,
@@ -37,12 +38,14 @@ module.exports.createMovie = (req, res, next) => {
     nameEN,
     owner: req.user._id,
   })
-    .then(data =>
+    .then(data => {
+      console.log(data);
       // eslint-disable-next-line implicit-arrow-linebreak
       Movie.findById(data._id)
         .populate('owner')
-        .then(movie => res.status(201).send(movie)))
+        .then(movie => res.status(201).send(movie));})
     .catch(err => {
+      console.log(err);
       if (err.name === 'ValidationError') {
         next(new BadRequestError(err.message));
       }
