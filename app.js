@@ -4,8 +4,6 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 
-const auth = require('./middlewares/auth');
-const NotFoundError = require('./errors/NotFoundError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 require('dotenv').config();
@@ -16,7 +14,6 @@ const {
   DB_NAME = 'bitfilmsdb',
   NODE_ENV,
   PORT = 3000,
-  API_PATH = '',
 } = process.env;
 
 const app = express();
@@ -33,13 +30,7 @@ mongoose.connect(`mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`, {
 
 app.use(requestLogger);
 
-app.use(`${API_PATH}/`, require('./routes/auth'));
-app.use(`${API_PATH}/users`, auth, require('./routes/users'));
-app.use(`${API_PATH}/movies`, auth, require('./routes/movies'));
-
-app.use((req, res, next) => {
-  next(new NotFoundError('Endpoint or method not found'));
-});
+app.use('/', require('./routes/index'));
 
 app.use(errorLogger);
 
@@ -47,6 +38,7 @@ app.use(errors());
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
+  console.log(err);
   const { statusCode = 500, message } = err;
   res.status(statusCode).send({
     message: statusCode === 500 ? 'Internal server error' : message,
