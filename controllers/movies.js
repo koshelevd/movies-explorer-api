@@ -38,14 +38,12 @@ module.exports.createMovie = (req, res, next) => {
     nameEN,
     owner: req.user._id,
   })
-    .then(data => {
-      console.log(data);
+    .then(data =>
       // eslint-disable-next-line implicit-arrow-linebreak
       Movie.findById(data._id)
         .populate('owner')
-        .then(movie => res.status(201).send(movie));})
+        .then(movie => res.status(201).send(movie)))
     .catch(err => {
-      console.log(err);
       if (err.name === 'ValidationError') {
         next(new BadRequestError(err.message));
       }
