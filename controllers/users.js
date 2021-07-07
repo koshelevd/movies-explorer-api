@@ -15,7 +15,7 @@ module.exports.getUser = (req, res, next) => {
       if (user) {
         return res.send(user);
       }
-      throw new NotFoundError(messages.users.notFound);
+      return new NotFoundError(messages.users.notFound);
     })
     .catch(next);
 };

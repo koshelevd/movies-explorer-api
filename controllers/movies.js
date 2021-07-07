@@ -55,16 +55,16 @@ const handleResult = (obj, res) => {
   if (obj) {
     return res.send(obj);
   }
-  throw new NotFoundError();
+  return new NotFoundError();
 };
 
 module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(req.params.id)
     .then(movie => {
       if (!movie) {
-        throw new NotFoundError(messages.movies.delete.notFound);
+        next(new NotFoundError(messages.movies.delete.notFound));
       } else if (movie.owner.toString() !== req.user._id) {
-        throw new ForbiddenError(messages.movies.delete.forbidden);
+        next(new ForbiddenError(messages.movies.delete.forbidden));
       }
       return Movie.findOneAndRemove({
         _id: req.params.id,
