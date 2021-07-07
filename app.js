@@ -8,7 +8,7 @@ const { errors } = require('celebrate');
 const config = require('./config');
 const limiter = require('./middlewares/limiter');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const singleErrorHandler = require('./middlewares/errorsHandler');
+const singleErrorHandler = require('./middlewares/error-handler');
 
 const app = express();
 
