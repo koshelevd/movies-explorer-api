@@ -39,7 +39,12 @@ module.exports.createUser = (req, res, next) => {
 const updateUserInfo = (userId, res, next, data) => {
   User.findByIdAndUpdate(userId, data, { new: true })
     .then(user => res.send(user))
-    .catch(next);
+    .catch(err => {
+      if (err.code === 11000) {
+        next(new ConflictError(messages.users.exists));
+      }
+      next(err);
+    });
 };
 
 module.exports.updateUser = (req, res, next) => {
