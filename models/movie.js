@@ -2,13 +2,11 @@ const mongoose = require('mongoose');
 const { isURL } = require('validator');
 
 const validateUrl = {
-  validator: value =>
-    // eslint-disable-next-line implicit-arrow-linebreak
-    isURL(value, {
-      protocols: ['http', 'https'],
-      require_tld: true,
-      require_protocol: true,
-    }),
+  validator: value => isURL(value, {
+    protocols: ['http', 'https'],
+    require_tld: true,
+    require_protocol: true,
+  }),
   message: 'You should specify valid URL!',
 };
 
