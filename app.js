@@ -12,8 +12,9 @@ const singleErrorHandler = require('./middlewares/errorsHandler');
 
 const app = express();
 
-app.use(helmet());
+app.use(requestLogger);
 app.use(limiter);
+app.use(helmet());
 app.use(cookieParser());
 app.use(bodyParser.json());
 
@@ -23,8 +24,6 @@ mongoose.connect(config.dbPath, {
   useFindAndModify: false,
   useUnifiedTopology: true,
 });
-
-app.use(requestLogger);
 
 app.use('/', require('./routes/index'));
 
