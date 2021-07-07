@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { isURL } = require('validator');
+const messages = require('../utils/constants');
 
 const validateUrl = {
   validator: value => isURL(value, {
@@ -7,7 +8,7 @@ const validateUrl = {
     require_tld: true,
     require_protocol: true,
   }),
-  message: 'You should specify valid URL!',
+  message: messages.invalidURL,
 };
 
 const movieSchema = new mongoose.Schema({

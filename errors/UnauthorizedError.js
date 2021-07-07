@@ -1,5 +1,7 @@
+const messages = require('../utils/constants');
+
 class UnauthorizedError extends Error {
-  constructor(message = 'Authorization required') {
+  constructor(message = messages.unauthorizedError.default) {
     super(message);
     this.statusCode = 401;
   }

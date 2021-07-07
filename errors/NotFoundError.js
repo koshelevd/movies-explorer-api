@@ -1,5 +1,7 @@
+const messages = require('../utils/constants');
+
 class NotFoundError extends Error {
-  constructor(message = 'Requested data not found') {
+  constructor(message = messages.notFoundError.default) {
     super(message);
     this.statusCode = 404;
   }

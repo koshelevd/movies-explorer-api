@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const config = require('../config');
+const messages = require('../utils/constants');
 const User = require('../models/user');
 
 const NotFoundError = require('../errors/NotFoundError');
@@ -14,7 +15,7 @@ module.exports.getUser = (req, res, next) => {
       if (user) {
         return res.send(user);
       }
-      throw new NotFoundError('User is not found');
+      throw new NotFoundError(messages.users.notFound);
     })
     .catch(next);
 };
@@ -27,7 +28,7 @@ module.exports.createUser = (req, res, next) => {
     .then(user => res.status(201).send(user))
     .catch(err => {
       if (err.message.includes('User exists')) {
-        next(new ConflictError('User exists!'));
+        next(new ConflictError(messages.users.exists));
       } else if (err.name === 'ValidationError') {
         next(new BadRequestError(err.message));
       }

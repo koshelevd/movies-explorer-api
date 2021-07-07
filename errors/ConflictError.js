@@ -1,5 +1,7 @@
+const messages = require('../utils/constants');
+
 class ConflictError extends Error {
-  constructor(message = 'Conflicting request') {
+  constructor(message = messages.conflictError.default) {
     super(message);
     this.statusCode = 409;
   }

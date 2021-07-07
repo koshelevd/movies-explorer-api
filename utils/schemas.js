@@ -1,5 +1,6 @@
 const { celebrate, Joi } = require('celebrate');
 const { isURL } = require('validator');
+const messages = require('./constants');
 
 const validateURL = (value, helpers) => {
   if (
@@ -9,7 +10,7 @@ const validateURL = (value, helpers) => {
       require_protocol: true,
     })
   ) {
-    return helpers.message("URL you've provided is not valid!");
+    return helpers.message(messages.invalidURL);
   }
 
   return value;
@@ -35,9 +36,9 @@ const postMovieSchema = celebrate({
     duration: Joi.number().required(),
     year: Joi.string().required().min(4).max(4),
     description: Joi.string().required(),
-    image: Joi.required().custom(validateURL, 'custom validation'),
-    trailer: Joi.required().custom(validateURL, 'custom validation'),
-    thumbnail: Joi.required().custom(validateURL, 'custom validation'),
+    image: Joi.required().custom(validateURL, messages.imageNotValid),
+    trailer: Joi.required().custom(validateURL, messages.trailerNotValid),
+    thumbnail: Joi.required().custom(validateURL, messages.thumbnailNotValid),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
     movieId: Joi.string().required(),

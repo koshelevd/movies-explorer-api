@@ -2,13 +2,14 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const { isEmail } = require('validator');
+const messages = require('../utils/constants');
 
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const validateEmail = [
   {
     validator: value => isEmail(value),
-    message: 'You should specify valid user email!',
+    message: messages.invalidEmail,
   },
   {
     async validator(value) {
@@ -17,7 +18,7 @@ const validateEmail = [
       });
       return !emailCount;
     },
-    message: 'User exists!',
+    message: messages.users.exists,
   },
 ];
 
@@ -40,7 +41,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-const authFailed = new UnauthorizedError('Email or password are incorrect');
+const authFailed = new UnauthorizedError(messages.authFailed);
 
 function findUserByCredentials(email, password) {
   return this.findOne({ email })
