@@ -18,12 +18,7 @@ app.use(helmet());
 app.use(cookieParser());
 app.use(bodyParser.json());
 
-mongoose.connect(config.dbPath, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true,
-});
+mongoose.connect(config.dbPath, config.dbOptions);
 
 app.use('/', require('./routes/index'));
 

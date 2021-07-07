@@ -56,15 +56,12 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then(user => {
-      const token = jwt.sign({ _id: user._id }, config.jwtSecret, {
-        expiresIn: '7d',
-      });
-      res
-        .cookie('jwt', token, {
-          maxAge: 3600000 * 24 * 7,
-          httpOnly: true,
-        })
-        .end();
+      const token = jwt.sign(
+        { _id: user._id },
+        config.jwtSecret,
+        config.jwtSignOptions,
+      );
+      res.cookie('jwt', token, config.jwtCookieOptions).end();
     })
     .catch(next);
 };
