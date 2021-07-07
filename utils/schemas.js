@@ -41,7 +41,7 @@ const postMovieSchema = celebrate({
     thumbnail: Joi.required().custom(validateURL, messages.thumbnailNotValid),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
-    movieId: Joi.string().required(),
+    movieId: Joi.number().required(),
   }),
 });
 
