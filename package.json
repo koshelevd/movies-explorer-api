@@ -4,8 +4,6 @@
   "description": "API for Movies Explorer project",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "npx eslint .",
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
