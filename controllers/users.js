@@ -27,12 +27,13 @@ module.exports.createUser = (req, res, next) => {
     .then(user => User.findById(user._id)) // Select user without password field
     .then(user => res.status(201).send(user))
     .catch(err => {
-      if (err.message.includes('User exists')) {
+      if (err.code === 11000) {
         next(new ConflictError(messages.users.exists));
       } else if (err.name === 'ValidationError') {
         next(new BadRequestError(err.message));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 
@@ -42,8 +43,9 @@ const updateUserInfo = (userId, res, next, data) => {
     .catch(err => {
       if (err.code === 11000) {
         next(new ConflictError(messages.users.exists));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 
