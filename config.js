@@ -20,6 +20,12 @@ const config = {
     maxAge: 3600000 * 24 * 7,
     httpOnly: true,
   },
+  whitelist: [
+    'http://localhost:3001',
+    'http://localhost:3000',
+    'https://movies.koshelev.net',
+    'http://movies.koshelev.net',
+  ],
 };
 
 module.exports = config;

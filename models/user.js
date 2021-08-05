@@ -11,15 +11,15 @@ const validateEmail = [
     validator: value => isEmail(value),
     message: messages.invalidEmail,
   },
-  {
-    async validator(value) {
-      const emailCount = await this.constructor.countDocuments({
-        email: value,
-      });
-      return !emailCount;
-    },
-    message: messages.users.exists,
-  },
+  // {
+  //   async validator(value) {
+  //     const emailCount = await this.constructor.countDocuments({
+  //       email: value,
+  //     });
+  //     return !emailCount;
+  //   },
+  //   message: messages.users.exists,
+  // },
 ];
 
 const userSchema = new mongoose.Schema({

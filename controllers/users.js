@@ -57,20 +57,23 @@ module.exports.updateUser = (req, res, next) => {
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
+    .then(user => User.findById(user._id)) // Select user without password field
     .then(user => {
       const token = jwt.sign(
         { _id: user._id },
         config.jwtSecret,
         config.jwtSignOptions,
       );
-      res.cookie('jwt', token, config.jwtCookieOptions).end();
+      res
+        .cookie('jwt', token, config.jwtCookieOptions)
+        .send(user);
     })
     .catch(next);
 };
 
 module.exports.logout = (req, res, next) => {
   try {
-    res.clearCookie('jwt').end();
+    res.clearCookie('jwt').send({ message: 'Log out success' });
   } catch (err) {
     next(err);
   }
